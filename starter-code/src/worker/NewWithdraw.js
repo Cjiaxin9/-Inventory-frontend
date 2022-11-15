@@ -21,7 +21,8 @@ const NewWithdraw = () => {
   const handledateChange = (event) => {
     setcdate(event.target.value);
   };
-  console.log(cdate);
+  // console.log(cdate);
+
   //location dropdown list
   const [postLocation, setPostLocation] = useState(null);
 
@@ -182,28 +183,19 @@ const NewWithdraw = () => {
   const handleUnitChange = (event) => {
     setUnit(event.target.value);
   };
-
-  // const handleUnitChange = (onChangeValue, i) => {
-  //   const inputUnit = [...rowCount];
-  //   inputUnit[i] = onChangeValue.target.value;
-  //   setUnit(inputUnit);
-  // };
-  // console.log(unit);
-
+  // console.log(product_name);
   //remark
   const [remark, setRemark] = useState("");
-  const handleRemarkChange = (onChangeValue, i) => {
-    const inputRemark = [...rowCount];
-    inputRemark[i] = onChangeValue.target.value;
-    setRemark(inputRemark);
+  const handleRemarkChange = (event) => {
+    setRemark(event.target.value);
   };
   // console.log(remark);
 
   //submit button
   const handleSubmit = async (e) => {
-    console.log(location);
-    console.log(cdate);
-    console.log(category);
+    // console.log(location);
+    // console.log(cdate);
+    // console.log(category);
     if (location !== "" && category !== "" && cdate !== "") {
       e.preventDefault();
       let databody = {
@@ -220,12 +212,56 @@ const NewWithdraw = () => {
       });
 
       const data = await res.json();
-      console.log(data);
+
+      // save the table
+      const withdrawid = data.rows[0].id;
+      const databodytable = [];
+      for (let i = 0; i < rowCount.length; i++) {
+        databodytable.push({
+          withdraw_id: withdrawid,
+          product_name: product_name,
+          Qty: qty[i],
+          unit: unit[i],
+          remark: remark[i],
+        });
+        console.log(databodytable);
+      }
+
+      // let databodytable = {
+      //   withdraw_id: withdrawid,
+      //   product_name: product_name,
+      //   Qty: qty,
+      //   unit: unit,
+      //   remark: remark,
+      // };
+      // console.log(databodytable);
+      //   console.log(qty[i]);
+      //   console.log(unit[i]);
+      //   console.log(product_name[i]);
+
+      //   // };
+      //   // console.log(databodytable.product_name);
+      //   //   const restable = await fetch(
+      //   //     "http://127.0.0.1:5001/withdrawproduct/create",
+      //   //     {
+      //   //       method: "PUT",
+      //   //       body: JSON.stringify(databodytable),
+      //   //       headers: {
+      //   //         "Content-Type": "application/json",
+      //   //       },
+      //   //     }
+      //   //   );
+
+      //   //   const datatable = await restable.json();
+      //   //   console.log(datatable);
+      // }
     } else {
       alert("Please insert correct information ");
     }
 
-    // save the table
+    // } else {
+    //   alert("Please insert correct information ");
+    // }
   };
 
   return (
