@@ -1,0 +1,65 @@
+.Newwithdraw,
+h2 {
+  height: 100%;
+  display: flex;
+  /* position: relative; */
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+}
+
+.inputBox {
+  width: 366px;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border: 2px solid black;
+  border-radius: 4px;
+}
+/* .switch {
+  margin-left: -270px;
+} */
+.submitButton,
+#addRow {
+  width: 366px;
+  height: 48px;
+  background-color: #293260;
+  color: #fffbf0;
+  border-radius: 10px;
+  font-family: "Roboto", sans-serif;
+  font-weight: 600;
+  font-size: 20px;
+  margin-bottom: 46px;
+}
+.add {
+  width: 65px;
+  height: 25px;
+  color: #0a0907;
+  font-family: "Roboto", sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  margin-bottom: -10px;
+  margin-left: 550px;
+}
+.product {
+  width: 65px;
+  height: 25px;
+  margin-left: -190px;
+  /* color: #0a0907;
+  font-family: "Roboto", sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  margin-bottom: -10px;
+  margin-left: 550px; */
+}
+
+.qty,
+.unit,
+.remark {
+  width: 65px;
+  height: 20px;
+}
+.btn-default {
+  margin-left: 800px;
+}
