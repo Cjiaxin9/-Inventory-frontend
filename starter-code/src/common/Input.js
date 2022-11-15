@@ -8,6 +8,8 @@ const Input = (props) => {
       type={props.type}
       placeholder={props.placeholder}
       onChange={props.onChange}
+      {...props.register(props.inputName)}
+      style={{ minWidth: 0, width: "100%" }}
     />
   );
 };

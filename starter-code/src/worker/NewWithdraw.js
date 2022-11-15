@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import Label from "../common/Label";
 import Input from "../common/Input";
 import Button from "../common/Button";
@@ -6,6 +7,8 @@ import Button from "../common/Button";
 import "../worker/worker.css";
 
 const NewWithdraw = () => {
+  const { register, handleSubmit, reset } = useForm();
+
   const [location, setlocation] = useState("");
   const [category, setcategory] = useState("");
   const [error, setError] = useState(null);
@@ -15,13 +18,12 @@ const NewWithdraw = () => {
   const date = someDate.setDate(someDate.getDate());
   // const defaultValue = new Date(date).toISOString();
   const defaultValue = new Date(date).toISOString().split("T")[0];
-  // console.log(someDate); // today date
+
   // console.log(defaultValue);
   const [cdate, setcdate] = useState(defaultValue);
   const handledateChange = (event) => {
     setcdate(event.target.value);
   };
-  // console.log(cdate);
 
   //location dropdown list
   const [postLocation, setPostLocation] = useState(null);
@@ -52,7 +54,6 @@ const NewWithdraw = () => {
     fetchPostLocation(url);
   }, []);
 
-  // console.log({ post_result: postLocation });
   const handlelocationChange = (event) => {
     setlocation(event.target.value);
   };
@@ -96,11 +97,6 @@ const NewWithdraw = () => {
     const inputBox = [...rowCount, []];
     setRowCount(inputBox);
   };
-  //   const handleChange = (onChangeValue, i) => {
-  //     const inputdata = [...rowCount];
-  //     inputdata[i] = onChangeValue.target.value;
-  //     setRowCount(inputdata);
-  //   };
 
   //product name
 
@@ -132,24 +128,6 @@ const NewWithdraw = () => {
     fetchPostProduct(url);
   }, []);
 
-  const [product_name, setProduct_name] = useState("");
-  const handleProductNameChange = (event) => {
-    setProduct_name(event.target.value);
-  };
-
-  //Qty
-  const [qty, setQty] = useState("");
-
-  const handleQtyChange = (event) => {
-    setQty(event.target.value);
-  };
-  // const handleQtyChange = (onChangeValue, i) => {
-  //   // const inputQty = [...rowCount];
-  //   // inputQty[i] = onChangeValue.target.value;
-  //   // setQty(inputQty);
-  // };
-  // console.log(qty);
-
   //unit
 
   const [postUnit, setPostUnit] = useState(null);
@@ -179,20 +157,44 @@ const NewWithdraw = () => {
     const url = "http://127.0.0.1:5001/unit/allunit";
     fetchPostUnit(url);
   }, []);
-  const [unit, setUnit] = useState("");
-  const handleUnitChange = (event) => {
-    setUnit(event.target.value);
-  };
-  // console.log(product_name);
-  //remark
-  const [remark, setRemark] = useState("");
-  const handleRemarkChange = (event) => {
-    setRemark(event.target.value);
-  };
-  // console.log(remark);
 
+  // after submit press  send to backend
+  const [withdrawidsave, setwithdrawidsave] = useState("");
+  useEffect(() => {
+    // console.log(data);
+    const inputsrow = Object.keys(inputrowsdata).map(
+      (key) => inputrowsdata[key]
+    ); // make from object inside object to array
+
+    inputsrow.map((oneInput) => {
+      return sendOneInputToBackend(oneInput);
+    });
+  }, [withdrawidsave]);
+  const sendOneInputToBackend = async (oneInput) => {
+    // console.log(withdrawidsave); // withdraw_id
+    const restable = await fetch(
+      "http://127.0.0.1:5001/withdrawproduct/create",
+      {
+        method: "PUT",
+        body: JSON.stringify({
+          withdraw_id: withdrawidsave,
+          product_name: oneInput.productName,
+          Qty: oneInput.productQty,
+          unit: oneInput.productUnit,
+          remark: oneInput.productRemarks,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const datatable = await restable.json(); // return{status: 'ok', message: 'saved'} on the inspect - save in backend
+    // console.log(datatable);
+  };
   //submit button
-  const handleSubmit = async (e) => {
+  const [inputrowsdata, setinputrowsdata] = useState("");
+  const onSubmit = async (data, e) => {
+    setinputrowsdata(data);
     // console.log(location);
     // console.log(cdate);
     // console.log(category);
@@ -203,7 +205,7 @@ const NewWithdraw = () => {
         category: category,
         date: cdate,
       };
-      const res = await fetch("http://127.0.0.1:5001/withdraw/create", {
+      const reswithdraw = await fetch("http://127.0.0.1:5001/withdraw/create", {
         method: "PUT",
         body: JSON.stringify(databody),
         headers: {
@@ -211,159 +213,124 @@ const NewWithdraw = () => {
         },
       });
 
-      const data = await res.json();
+      const datawithdraw = await reswithdraw.json();
 
-      // save the table
-      const withdrawid = data.rows[0].id;
-      const databodytable = [];
-      for (let i = 0; i < rowCount.length; i++) {
-        databodytable.push({
-          withdraw_id: withdrawid,
-          product_name: product_name,
-          Qty: qty[i],
-          unit: unit[i],
-          remark: remark[i],
-        });
-        console.log(databodytable);
-      }
+      setwithdrawidsave(datawithdraw.rows[0].id);
 
-      // let databodytable = {
-      //   withdraw_id: withdrawid,
-      //   product_name: product_name,
-      //   Qty: qty,
-      //   unit: unit,
-      //   remark: remark,
-      // };
-      // console.log(databodytable);
-      //   console.log(qty[i]);
-      //   console.log(unit[i]);
-      //   console.log(product_name[i]);
-
-      //   // };
-      //   // console.log(databodytable.product_name);
-      //   //   const restable = await fetch(
-      //   //     "http://127.0.0.1:5001/withdrawproduct/create",
-      //   //     {
-      //   //       method: "PUT",
-      //   //       body: JSON.stringify(databodytable),
-      //   //       headers: {
-      //   //         "Content-Type": "application/json",
-      //   //       },
-      //   //     }
-      //   //   );
-
-      //   //   const datatable = await restable.json();
-      //   //   console.log(datatable);
-      // }
+      reset();
     } else {
       alert("Please insert correct information ");
     }
-
-    // } else {
-    //   alert("Please insert correct information ");
-    // }
   };
 
   return (
     <div className="Newwithdraw">
       <h2> Withdraw page </h2>
-      <div className="date">
-        <Label value="Date " />
-        <Input
-          className="date"
-          value={cdate}
-          type="text"
-          onChange={handledateChange}
-        />
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="date">
+          <Label value="Date " className="fw-bold" />
+          <input
+            className="date"
+            value={cdate}
+            type="text"
+            onChange={handledateChange}
+          />
+          <p />
+          <Label value="Location " className="fw-bold" />
+          <select onChange={handlelocationChange}>
+            {postLocation &&
+              postLocation.location.map((data, i) => {
+                return (
+                  <option value={data.location} key={i}>
+                    {data.location}
+                  </option>
+                );
+              })}
+          </select>
+          <p />
+          <Label value="Category " className="fw-bold" />
+          <select onChange={handlecategoryChange}>
+            {postCategory &&
+              postCategory.category.map((data, i) => {
+                return (
+                  <option value={data.category} key={i}>
+                    {data.category}
+                  </option>
+                );
+              })}
+          </select>
+        </div>
         <p />
-        <Label value="Location " />
-        <select onChange={handlelocationChange}>
-          {postLocation &&
-            postLocation.location.map((data, i) => {
-              return (
-                <option value={data.location} key={i}>
-                  {data.location}
-                </option>
-              );
-            })}
-        </select>
+        <Button className="add" onClick={() => handleAddRow()} type="button">
+          + Add
+        </Button>
         <p />
-        <Label value="Category " />
-        <select onChange={handlecategoryChange}>
-          {postCategory &&
-            postCategory.category.map((data, i) => {
-              return (
-                <option value={data.category} key={i}>
-                  {data.category}
-                </option>
-              );
-            })}
-        </select>
-      </div>
-      <p />
-      <Button
-        className="add"
-        onClick={() => handleAddRow()}
-        input="+ Add"
-      ></Button>
-      <p />
-      <div className="row w-100 d-flex justify-content-center">
-        <div className="col-sm-4 px-4">
-          <Label value="product " />
-        </div>
-        <div className="col-sm-2 px-4">
-          <Label value="Qty " />
-        </div>
-        <div className="col-sm-1 px-4">
-          <Label value="unit " />
-        </div>
-        <div className="col-sm-2 px-4">
-          <Label value="remark " />
-        </div>
-      </div>
-      {rowCount.map((data, i) => {
-        return (
-          <div className="row w-100 d-flex justify-content-center">
-            <div className="col-sm-4 my-2 px-0">
-              <select onChange={handleProductNameChange}>
-                {postProduct &&
-                  postProduct.product.map((data, i) => {
-                    return (
-                      <option value={data.product_name} key={i}>
-                        {data.product_name}
-                      </option>
-                    );
-                  })}
-              </select>
-            </div>
-            <div className="col-sm-2 my-2 px-0">
-              <Input onChange={(e) => handleQtyChange(e, i)} />
-            </div>
-            <div className="col-sm-1 my-2  px-0">
-              <select onChange={handleUnitChange}>
-                {postUnit &&
-                  postUnit.unit.map((data, i) => {
-                    return (
-                      <option value={data.unit} key={i}>
-                        {data.unit}
-                      </option>
-                    );
-                  })}
-              </select>
-            </div>
-            <div className="col-sm-2 my-2 px-0">
-              <Input onChange={(e) => handleRemarkChange(e, i)} />
-            </div>
-          </div>
-        );
-      })}
 
-      <Button
-        className="btn-default"
-        input="Submit"
-        type="submit"
-        onClick={handleSubmit}
-      ></Button>
+        <div className="container row w-100 d-flex justify-content-center">
+          <div className="col-sm-6 px-4 fw-bold">
+            <Label value="Product " />
+          </div>
+          <div className="col-sm-2 px-4 fw-bold">
+            <Label value="Qty " />
+          </div>
+          <div className="col-sm-1 px-4 fw-bold ">
+            <Label value="unit " />
+          </div>
+          <div className="col-sm-2 px-4 fw-bold ">
+            <Label value="Remark " />
+          </div>
+        </div>
+        {rowCount.map((data, index) => {
+          return (
+            <div
+              className="container row w-100 d-flex justify-content-center"
+              key={index}
+            >
+              <div className="col-sm-6 my-2 px-0">
+                <select {...register(`${index}.productName`)}>
+                  {postProduct &&
+                    postProduct.product.map((data, i) => {
+                      return (
+                        <option value={data.product_name} key={i}>
+                          {data.product_name}
+                        </option>
+                      );
+                    })}
+                </select>
+              </div>
+              <div className="col-sm-2 my-2 px-0">
+                <Input
+                  type="number"
+                  register={register}
+                  inputName={`${index}.productQty`}
+                />
+              </div>
+              <div className="col-sm-1 my-2  px-0 ms-2">
+                <select {...register(`${index}.productUnit`)}>
+                  {postUnit &&
+                    postUnit.unit.map((data, i) => {
+                      return (
+                        <option value={data.unit} key={i}>
+                          {data.unit}
+                        </option>
+                      );
+                    })}
+                </select>
+              </div>
+              <div className="col-sm-2 my-2 px-0 ms-3">
+                <Input
+                  type="text"
+                  register={register}
+                  inputName={`${index}.productRemarks`}
+                />
+              </div>
+            </div>
+          );
+        })}
+        <Button className="btn-default" type="submit">
+          Submit
+        </Button>
+      </form>
     </div>
   );
 };
