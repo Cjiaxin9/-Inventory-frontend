@@ -6,12 +6,27 @@ import Button from "../common/Button";
 import { useNavigate } from "react-router-dom";
 import "../worker/worker.css";
 
-const NewWithdraw = () => {
-  const { register, handleSubmit, reset } = useForm();
+const InputEdit = (props) => {
   const navigate = useNavigate();
-  const [location, setlocation] = useState("");
-  const [category, setcategory] = useState("");
+  const [withdrawlist, setwithdrawlist] = useState(props.wdDetailList);
+  const [withdrawlistproduct, setwithdrawlistproduct] = useState(
+    props.wdDetailListTable
+  );
+  const [location, setlocation] = useState(withdrawlist[0].location);
+  const [category, setcategory] = useState(withdrawlist[0].category);
   const [error, setError] = useState(null);
+  const id = withdrawlist[0].id;
+
+  const defaultValues = {};
+  for (let i = 0; i < withdrawlistproduct.length; i++) {
+    defaultValues[`${i}`] = {};
+    defaultValues[`${i}`].productName = withdrawlistproduct[i].product_name;
+    defaultValues[`${i}`].productQty = withdrawlistproduct[i].qty;
+    defaultValues[`${i}`].productUnit = withdrawlistproduct[i].unit;
+    defaultValues[`${i}`].productRemarks = withdrawlistproduct[i].remark;
+    defaultValues[`${i}`].id = withdrawlistproduct[i].id;
+  }
+  const { register, handleSubmit, reset } = useForm({ defaultValues });
 
   const someDate = new Date();
 
@@ -20,7 +35,7 @@ const NewWithdraw = () => {
   const defaultValue = new Date(date).toISOString().split("T")[0];
 
   // console.log(defaultValue);
-  const [cdate, setcdate] = useState(defaultValue);
+  const [cdate, setcdate] = useState(withdrawlist[0].date.split("T")[0]);
   const handledateChange = (event) => {
     setcdate(event.target.value);
   };
@@ -92,7 +107,8 @@ const NewWithdraw = () => {
   };
 
   // Create a state for the amount of rows you want to view
-  const [rowCount, setRowCount] = useState([]);
+  const [rowCount, setRowCount] = useState(withdrawlistproduct);
+
   const handleAddRow = () => {
     const inputBox = [...rowCount, []];
     setRowCount(inputBox);
@@ -172,43 +188,49 @@ const NewWithdraw = () => {
   }, [withdrawidsave]);
 
   const sendOneInputToBackend = async (oneInput) => {
+    //
     // console.log(withdrawidsave); // withdraw_id
     const restable = await fetch(
-      "http://127.0.0.1:5001/withdrawproduct/create",
+      "http://127.0.0.1:5001/withdrawproduct/update",
       {
-        method: "PUT",
+        method: "PATCH",
         body: JSON.stringify({
           withdraw_id: withdrawidsave,
           product_name: oneInput.productName,
           Qty: oneInput.productQty,
           unit: oneInput.productUnit,
           remark: oneInput.productRemarks,
+          id: oneInput.id,
         }),
         headers: {
           "Content-Type": "application/json",
         },
       }
     );
-    const datatable = await restable.json(); // return{status: 'ok', message: 'saved'} on the inspect - save in backend
+    const datatable = await restable.json();
+    if (datatable.message == "updated successfully") {
+      navigate("/withdrawMain");
+    }
     // console.log(datatable);
   };
   //submit button
-  let submitall = false;
   const [inputrowsdata, setinputrowsdata] = useState("");
   const onSubmit = async (data, e) => {
     setinputrowsdata(data);
-    // console.log(location);
     // console.log(cdate);
+    // console.log(location);
     // console.log(category);
-    if (location !== "" && category !== "" && cdate !== "") {
+    // console.log(id);
+    if (location !== "" && category !== "" && cdate !== "" && id !== "") {
       e.preventDefault();
       let databody = {
         location: location,
         category: category,
         date: cdate,
+        id: id,
       };
-      const reswithdraw = await fetch("http://127.0.0.1:5001/withdraw/create", {
-        method: "PUT",
+      const reswithdraw = await fetch("http://127.0.0.1:5001/withdraw/update", {
+        method: "PATCH",
         body: JSON.stringify(databody),
         headers: {
           "Content-Type": "application/json",
@@ -216,22 +238,17 @@ const NewWithdraw = () => {
       });
 
       const datawithdraw = await reswithdraw.json();
+      setwithdrawidsave(datawithdraw.updatewithdrawDetailsResult.rows[0].id);
+      // console.log(datawithdraw.updatewithdrawDetailsResult.rows[0].id);
 
-      setwithdrawidsave(datawithdraw.rows[0].id);
-      submitall = true;
-      if (submitall === true) {
-        navigate("/withdrawMain"); //to be change
-      }
       reset();
     } else {
       alert("Please insert correct information ");
     }
   };
-  //back button
   const handleback = () => {
     navigate(-1);
   };
-
   return (
     <div className="Newwithdraw">
       <h2> Withdraw page </h2>
@@ -240,9 +257,9 @@ const NewWithdraw = () => {
           <Label value="Date " className="fw-bold" />
           <input
             className="date"
-            value={cdate}
             type="text"
             onChange={handledateChange}
+            defaultValue={withdrawlist[0].date.split("T")[0]}
           />
           <p />
           <Label value="Location " className="fw-bold" />
@@ -250,7 +267,15 @@ const NewWithdraw = () => {
             {postLocation &&
               postLocation.location.map((data, i) => {
                 return (
-                  <option value={data.location} key={i}>
+                  <option
+                    value={data.location}
+                    key={i}
+                    selected={
+                      withdrawlist[0].location === data.location
+                        ? "selected"
+                        : null
+                    }
+                  >
                     {data.location}
                   </option>
                 );
@@ -262,7 +287,15 @@ const NewWithdraw = () => {
             {postCategory &&
               postCategory.category.map((data, i) => {
                 return (
-                  <option value={data.category} key={i}>
+                  <option
+                    value={data.category}
+                    key={i}
+                    selected={
+                      withdrawlist[0].category === data.category
+                        ? "selected"
+                        : null
+                    }
+                  >
                     {data.category}
                   </option>
                 );
@@ -270,9 +303,9 @@ const NewWithdraw = () => {
           </select>
         </div>
         <p />
-        <Button className="add" onClick={() => handleAddRow()} type="button">
+        {/*<Button className="add" onClick={() => handleAddRow()} type="button">
           + Add
-        </Button>
+            </Button>*/}
         <p />
 
         <div className="container row w-100 d-flex justify-content-center">
@@ -300,7 +333,16 @@ const NewWithdraw = () => {
                   {postProduct &&
                     postProduct.product.map((data, i) => {
                       return (
-                        <option value={data.product_name} key={i}>
+                        <option
+                          value={data.product_name}
+                          key={i}
+                          selected={
+                            defaultValues[`${index}`].productName ===
+                            data.product_name
+                              ? "selected"
+                              : null
+                          }
+                        >
                           {data.product_name}
                         </option>
                       );
@@ -314,12 +356,20 @@ const NewWithdraw = () => {
                   inputName={`${index}.productQty`}
                 />
               </div>
-              <div className="col-sm-6 my-2  px-0 ms-2">
+              <div className="col-sm-1 my-2  px-0 ms-2">
                 <select {...register(`${index}.productUnit`)}>
                   {postUnit &&
                     postUnit.unit.map((data, i) => {
                       return (
-                        <option value={data.unit} key={i}>
+                        <option
+                          value={data.unit}
+                          key={i}
+                          selected={
+                            defaultValues[`${index}`].productUnit === data.unit
+                              ? "selected"
+                              : null
+                          }
+                        >
                           {data.unit}
                         </option>
                       );
@@ -337,18 +387,14 @@ const NewWithdraw = () => {
           );
         })}
         <Button className="btn-default" type="submit">
-          Submit
+          Submit Edit
         </Button>
       </form>
-      <Button
-        className="buttonbackdetailNew btn-default"
-        type="button"
-        onClick={() => handleback()}
-      >
-        Exit
+      <Button className="buttonExit" type="button" onClick={() => handleback()}>
+        Exit without save
       </Button>
     </div>
   );
 };
 
-export default NewWithdraw;
+export default InputEdit;

@@ -2,11 +2,14 @@ import React, { useState } from "react";
 import Label from "../common/Label";
 import Input from "../common/Input";
 import Button from "../common/Button";
-
+import { useNavigate } from "react-router-dom";
 import "../loginpage/loginpage.css";
+
 const Loginpage = () => {
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [role, setRole] = useState("");
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
@@ -32,9 +35,16 @@ const Loginpage = () => {
       });
 
       const data = await res.json();
-      console.log(data);
+      // setRole(data);
+
       setUsername("");
       setPassword("");
+      // console.log(data);
+      if (data === "WORKER") {
+        navigate("/withdrawMain");
+      } else if (data === "ADMIN") {
+        navigate("/adminpage");
+      }
     } else {
       alert("Please insert the username of password");
     }
@@ -45,7 +55,7 @@ const Loginpage = () => {
       <div className="username">
         <Label value="username" />
         <p />
-        <Input
+        <input
           className="inputBox "
           value={username}
           type="text"
@@ -57,7 +67,7 @@ const Loginpage = () => {
       <div className="password">
         <Label value="password" />
         <p />
-        <Input
+        <input
           className="inputBox "
           value={password}
           type="text"
@@ -65,13 +75,16 @@ const Loginpage = () => {
           onChange={handlePasswordChange}
         />
       </div>
+
       <p />
       <Button
         className="submitButton"
         input="Submit"
         type="submit"
         onClick={handleSubmit}
-      />
+      >
+        Submit
+      </Button>
     </div>
   );
 };

@@ -63,3 +63,62 @@ h2 {
 .btn-default {
   margin-left: 800px;
 }
+.button {
+  width: 65px;
+  height: 26px;
+  margin-left: 700px;
+  margin-top: -26px;
+  /* margin-left: 1000px;
+  margin-top: -1000px; */
+}
+.button2 {
+  width: 65px;
+  height: 26px;
+  margin-left: 830px;
+  margin-top: -26px;
+}
+.buttonNew {
+  margin-left: 500px;
+  margin-top: 30px;
+}
+.buttonList {
+  margin-left: 80px;
+}
+.buttonbackrecord {
+  width: 90px;
+  height: 26px;
+  margin-top: -135px;
+  margin-left: 550px;
+}
+.buttonedit {
+  width: 90px;
+  height: 26px;
+  margin-left: 1000px;
+  margin-top: 130px;
+}
+.buttonDelete {
+  width: 90px;
+  height: 26px;
+  margin-top: 130px;
+  margin-left: 20px;
+}
+
+.buttonbackdetail {
+  width: 90px;
+  height: 26px;
+  margin-top: -60px;
+  margin-left: 890px;
+}
+.buttonExit {
+  margin-left: 820px;
+  margin-top: 10px;
+}
+.buttonbackdetailNew {
+  margin-top: -100px;
+}
+.button3 {
+  width: auto;
+  height: 26px;
+  margin-left: 740px;
+  margin-top: -26px;
+}
