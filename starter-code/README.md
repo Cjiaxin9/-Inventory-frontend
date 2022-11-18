@@ -86,7 +86,7 @@ b. {
 **Client:** Run ‘npm install’ to install frontend dependencies (React)
 
 Run ‘npm start’ to start local host for frontend
-'8. # **Things that can be add on**
+<br> 8. # **Things that can be add on**
 
 - Fix the date in InputEdit page ( the date that was pass by the backend is in UTC and it is different from the local date)
 - Stock in so that we can calculate the balance stock
