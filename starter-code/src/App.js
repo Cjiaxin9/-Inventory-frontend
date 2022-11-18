@@ -10,19 +10,22 @@ import NewUser from "./admin/NewUser";
 import AllUser from "./admin/AllUser";
 import Adminmain from "./main/Adminmain";
 import Update from "./admin/Update";
+import Intro from "./into/Intro";
 
 function App() {
   const [wdidfromview, setWDidfromview] = useState(""); // id
+  const [wdDatefromview, setWDDatefromview] = useState(""); // id
   const [wdDetailListTable, setWDDetailListTable] = useState(""); //wtihdraw product table
   const [wdDetailList, setWDDetailList] = useState(""); //withdraw
   const [adminidfromview, setAdminidfromview] = useState(""); //admin userlist
-
+  console.log(wdDetailList);
   return (
     <div>
       <h2>Vending Nation</h2>
 
       <Routes>
-        <Route path="/" element={<Navigate to="/login" />} />
+        <Route path="/" element={<Navigate to="/into" />} />
+        <Route path="/into" element={<Intro />} />
         <Route path="/login" element={<Loginpage />} />
         <Route path="/adminpage" element={<Adminmain />} />
         <Route path="/newuser" element={<NewUser />} />
@@ -38,13 +41,19 @@ function App() {
         <Route path="/New_withdraw" element={<NewWithdraw />} />
         <Route
           path="/view_withdraw_main"
-          element={<WithdrawRecord_main setWDidfromview={setWDidfromview} />}
+          element={
+            <WithdrawRecord_main
+              setWDidfromview={setWDidfromview}
+              setWDDatefromview={setWDDatefromview}
+            />
+          }
         />
         <Route
           path="/view_withdraw_detail"
           element={
             <ViewWithdrawDetail
               wdidfromview={wdidfromview}
+              wdDatefromview={wdDatefromview}
               setWDDetailListTable={setWDDetailListTable}
               setWDDetailList={setWDDetailList}
             />

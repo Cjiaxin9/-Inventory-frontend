@@ -22,6 +22,8 @@ const NewWithdraw = () => {
   // console.log(defaultValue);
   const [cdate, setcdate] = useState(defaultValue);
   const handledateChange = (event) => {
+    let date = new Date(event.target.value).toUTCString();
+    console.log(date);
     setcdate(event.target.value);
   };
 
@@ -274,6 +276,13 @@ const NewWithdraw = () => {
           + Add
         </Button>
         <p />
+        <Button
+          className="buttonbackdetailNew btn-default"
+          type="button"
+          onClick={() => handleback()}
+        >
+          Exit
+        </Button>
 
         <div className="container row w-100 d-flex justify-content-center">
           <div className="col-sm-6 px-4 fw-bold">
@@ -314,7 +323,7 @@ const NewWithdraw = () => {
                   inputName={`${index}.productQty`}
                 />
               </div>
-              <div className="col-sm-6 my-2  px-0 ms-2">
+              <div className="col-sm-1 my-2  px-0 ms-2">
                 <select {...register(`${index}.productUnit`)}>
                   {postUnit &&
                     postUnit.unit.map((data, i) => {
@@ -340,13 +349,6 @@ const NewWithdraw = () => {
           Submit
         </Button>
       </form>
-      <Button
-        className="buttonbackdetailNew btn-default"
-        type="button"
-        onClick={() => handleback()}
-      >
-        Exit
-      </Button>
     </div>
   );
 };

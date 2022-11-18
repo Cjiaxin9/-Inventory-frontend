@@ -251,7 +251,7 @@ const InputEdit = (props) => {
   };
   return (
     <div className="Newwithdraw">
-      <h2> Withdraw page </h2>
+      <h2> Withdraw page - edit </h2>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="date">
           <Label value="Date " className="fw-bold" />
@@ -259,7 +259,9 @@ const InputEdit = (props) => {
             className="date"
             type="text"
             onChange={handledateChange}
-            defaultValue={withdrawlist[0].date.split("T")[0]}
+            defaultValue={
+              new Date(withdrawlist[0].date).toISOString().split("T")[0]
+            }
           />
           <p />
           <Label value="Location " className="fw-bold" />
@@ -390,7 +392,11 @@ const InputEdit = (props) => {
           Submit Edit
         </Button>
       </form>
-      <Button className="buttonExit" type="button" onClick={() => handleback()}>
+      <Button
+        className="buttonExit1"
+        type="button"
+        onClick={() => handleback()}
+      >
         Exit without save
       </Button>
     </div>

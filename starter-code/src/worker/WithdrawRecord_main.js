@@ -39,7 +39,7 @@ const WithdrawRecord_main = (props) => {
     const array = [];
     for (let i = 0; i < datafromBD.length; i++) {
       array.push({
-        date: datafromBD[i].date.split("T")[0],
+        date: new Date(datafromBD[i].date).toDateString(),
         location: datafromBD[i].location,
         category: datafromBD[i].category,
         id: datafromBD[i].id,
@@ -50,6 +50,7 @@ const WithdrawRecord_main = (props) => {
 
   const handleview = (item) => {
     props.setWDidfromview(item.id);
+    props.setWDDatefromview(item.date);
     navigate("/view_withdraw_detail");
   };
 
@@ -58,7 +59,14 @@ const WithdrawRecord_main = (props) => {
   };
   return (
     <div className="Newwithdraw ">
-      <h1>Withdraw list</h1>
+      <h2>Withdraw list</h2>
+      <Button
+        className="buttonbackrecord2"
+        type="button"
+        onClick={() => handleback()}
+      >
+        Back
+      </Button>
       <div className="container row w-100 d-flex justify-content-center">
         <p></p>
         <MainCard
@@ -88,13 +96,6 @@ const WithdrawRecord_main = (props) => {
           );
         })}
       </div>
-      <Button
-        className="buttonbackrecord"
-        type="button"
-        onClick={() => handleback()}
-      >
-        Back
-      </Button>
     </div>
   );
 };

@@ -1,7 +1,13 @@
 .buttonNew {
-  margin-left: 500px;
+  margin-left: 550px;
   margin-top: 30px;
 }
 .buttonList {
+  margin-left: 80px;
+}
+.buttonExit {
+  margin-left: 80px;
+}
+.into {
   margin-left: 80px;
 }

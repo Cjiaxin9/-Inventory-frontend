@@ -14,8 +14,10 @@ const ViewWithdrawDetail = (props) => {
   const [postDetail, setPostDetail] = useState(null);
   const [postDetailTable, setPostDetailTable] = useState(null);
   const [error, setError] = useState(null);
-
+  const [listdate, steListdate] = useState(props.wdDatefromview);
+  console.log(listdate);
   // to fetch
+
   const fetchPostDetail = async (url, url2) => {
     setError(null);
     setPostDetail(null);
@@ -65,12 +67,26 @@ const ViewWithdrawDetail = (props) => {
     const url2 = `http://127.0.0.1:5001/withdrawproduct/${id}`;
     fetchPostDetail(url, url2);
   }, [id]);
+  const someDate = new Date();
+  const date = someDate.setDate(someDate.getDate());
+  // const defaultValue = new Date(date).toISOString();
+  const todayDate = new Date(date).toISOString().split("T")[0];
 
   //edit button
   const handleedit = (postDetailTable, postDetail) => {
     props.setWDDetailListTable(postDetailTable);
     props.setWDDetailList(postDetail);
     navigate("/edit_withdraw_detail");
+
+    // if (listdate != todayDate) {
+    //   alert(
+    //     `You cannot edit this page if the date is not today (${todayDate})`
+    //   );
+    // } else {
+    //   props.setWDDetailListTable(postDetailTable);
+    //   props.setWDDetailList(postDetail);
+    //   navigate("/edit_withdraw_detail");
+    // }
   };
   //delete button
   let deleteall = false;
@@ -134,7 +150,7 @@ const ViewWithdrawDetail = (props) => {
               <React.Fragment>
                 <MainCard
                   className="col-sm-3 border border-secondary text-center"
-                  date={item.date.split("T")[0]}
+                  date={new Date(item.date).toDateString()}
                   location={item.location}
                   category={item.category}
                   key={i}
