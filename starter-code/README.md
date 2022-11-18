@@ -23,7 +23,6 @@
 4. # **Technologies used to build frontend:**
 
 - React.js
-- Node.js
 
 5. # **Technologies used to build backend:**
 
