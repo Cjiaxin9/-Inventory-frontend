@@ -15,7 +15,7 @@ const ViewWithdrawDetail = (props) => {
   const [postDetailTable, setPostDetailTable] = useState(null);
   const [error, setError] = useState(null);
   const [listdate, steListdate] = useState(props.wdDatefromview);
-  console.log(listdate);
+
   // to fetch
 
   const fetchPostDetail = async (url, url2) => {
@@ -61,7 +61,7 @@ const ViewWithdrawDetail = (props) => {
       setError(err.message);
     }
   };
-  // console.log(postDetail);
+
   useEffect(() => {
     const url = `http://127.0.0.1:5001/withdraw/${id}`;
     const url2 = `http://127.0.0.1:5001/withdrawproduct/${id}`;
@@ -69,25 +69,23 @@ const ViewWithdrawDetail = (props) => {
   }, [id]);
   const someDate = new Date();
   const date = someDate.setDate(someDate.getDate());
-  // const defaultValue = new Date(date).toISOString();
-  const todayDate = new Date(date).toISOString().split("T")[0];
+
+  const todayDate = new Date(date).toDateString();
 
   //edit button
-  const handleedit = (postDetailTable, postDetail) => {
-    props.setWDDetailListTable(postDetailTable);
-    props.setWDDetailList(postDetail);
-    navigate("/edit_withdraw_detail");
 
-    // if (listdate != todayDate) {
-    //   alert(
-    //     `You cannot edit this page if the date is not today (${todayDate})`
-    //   );
-    // } else {
-    //   props.setWDDetailListTable(postDetailTable);
-    //   props.setWDDetailList(postDetail);
-    //   navigate("/edit_withdraw_detail");
-    // }
+  const handleedit = (postDetailTable, postDetail) => {
+    if (listdate != todayDate) {
+      alert(
+        `You cannot edit this page if the date is not today (${todayDate})`
+      );
+    } else {
+      props.setWDDetailListTable(postDetailTable);
+      props.setWDDetailList(postDetail);
+      navigate("/edit_withdraw_detail");
+    }
   };
+
   //delete button
   let deleteall = false;
   const [postdeletelist, setpostdeletelist] = useState(null);
@@ -126,7 +124,7 @@ const ViewWithdrawDetail = (props) => {
     deleteall = true;
     if (deleteall === true) {
       //
-      navigate("/withdrawMain"); //to be change
+      navigate("/withdrawMain");
     }
   }, [postdeletetable]);
 

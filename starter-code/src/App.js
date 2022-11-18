@@ -14,11 +14,11 @@ import Intro from "./into/Intro";
 
 function App() {
   const [wdidfromview, setWDidfromview] = useState(""); // id
-  const [wdDatefromview, setWDDatefromview] = useState(""); // id
+  const [wdDatefromview, setWDDatefromview] = useState(""); //date
   const [wdDetailListTable, setWDDetailListTable] = useState(""); //wtihdraw product table
   const [wdDetailList, setWDDetailList] = useState(""); //withdraw
   const [adminidfromview, setAdminidfromview] = useState(""); //admin userlist
-  console.log(wdDetailList);
+
   return (
     <div>
       <h2>Vending Nation</h2>

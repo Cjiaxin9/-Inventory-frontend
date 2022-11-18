@@ -39,7 +39,7 @@ const WithdrawRecord_main = (props) => {
     const array = [];
     for (let i = 0; i < datafromBD.length; i++) {
       array.push({
-        date: new Date(datafromBD[i].date).toDateString(),
+        date: new Date(datafromBD[i].date).toDateString(), // to interpreted in the local timezone in English. (Mon Jun 28 1993)
         location: datafromBD[i].location,
         category: datafromBD[i].category,
         id: datafromBD[i].id,

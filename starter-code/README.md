@@ -18,7 +18,8 @@
 - **worker**
 
 * can create a new withdraw list to record the drinks quantity in vending machine
-* change user's role and username
+* can view the withdraw list that was created
+* can only edit if the date is created in the current date
 
 4. # **Technologies used to build frontend:**
 
@@ -33,8 +34,10 @@
 6. # **Github Repositories:**
    Client: <https://github.com/Cjiaxin9/Inventory-backend.git>
 
-Server: <https://github.com/Cjiaxin9/-Inventory-frontend.git> 7. # **How to install and run the project:**
-**Create a database In sql (Shell) copy and paste the following:**
+Server: <https://github.com/Cjiaxin9/-Inventory-frontend.git>
+
+7. # **How to install and run the project:**
+   **Create a database In sql (Shell) copy and paste the following:**
 
 - create database vendingnation;
 - grant all privileges on database vendingnation to db_user;
@@ -60,33 +63,29 @@ Install backend dependencies
 
 Run ‘npm run dev’ to start local host for back end
 
-**In Postman,** `PUT` http://127.0.0.1:5001/users/create to insert 2 users
+**Client:** Run ‘npm install’ to install frontend dependencies (React)
 
-a. {
+Run ‘npm start’ to start local host for frontend
+
+**login(username and password ):**
+a. Admin{
 
 ` `"username": "Sihui",
 
-` `"password": "147258",
-
-` `"role":"ADMIN"
+` `"password": "147258"
 
 }
 
-b. {
+b. Worker{
 
 ` `"username": "Estelle",
 
 ` `"password": "987654",
 
-` `"role":"WORKER"
-
 }
 
-**Client:** Run ‘npm install’ to install frontend dependencies (React)
-
-Run ‘npm start’ to start local host for frontend
 <br> 8. # **Things that can be add on**
 
-- Fix the date in InputEdit page ( the date that was pass by the backend is in UTC and it is different from the local date)
 - Stock in so that we can calculate the balance stock
 - A user account setting for individual user for them to change the password
+- Authorization

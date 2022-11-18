@@ -12,6 +12,7 @@ const InputEdit = (props) => {
   const [withdrawlistproduct, setwithdrawlistproduct] = useState(
     props.wdDetailListTable
   );
+
   const [location, setlocation] = useState(withdrawlist[0].location);
   const [category, setcategory] = useState(withdrawlist[0].category);
   const [error, setError] = useState(null);
@@ -31,11 +32,12 @@ const InputEdit = (props) => {
   const someDate = new Date();
 
   const date = someDate.setDate(someDate.getDate());
-  // const defaultValue = new Date(date).toISOString();
-  const defaultValue = new Date(date).toISOString().split("T")[0];
 
-  // console.log(defaultValue);
-  const [cdate, setcdate] = useState(withdrawlist[0].date.split("T")[0]);
+  const today = new Date(date).toDateString();
+
+  const [cdate, setcdate] = useState(
+    new Date(withdrawlist[0].date).toDateString()
+  );
   const handledateChange = (event) => {
     setcdate(event.target.value);
   };
@@ -177,7 +179,6 @@ const InputEdit = (props) => {
   // after submit press  send to backend
   const [withdrawidsave, setwithdrawidsave] = useState("");
   useEffect(() => {
-    // console.log(data);
     const inputsrow = Object.keys(inputrowsdata).map(
       (key) => inputrowsdata[key]
     ); // make from object inside object to array
@@ -188,8 +189,6 @@ const InputEdit = (props) => {
   }, [withdrawidsave]);
 
   const sendOneInputToBackend = async (oneInput) => {
-    //
-    // console.log(withdrawidsave); // withdraw_id
     const restable = await fetch(
       "http://127.0.0.1:5001/withdrawproduct/update",
       {
@@ -211,16 +210,11 @@ const InputEdit = (props) => {
     if (datatable.message == "updated successfully") {
       navigate("/withdrawMain");
     }
-    // console.log(datatable);
   };
   //submit button
   const [inputrowsdata, setinputrowsdata] = useState("");
   const onSubmit = async (data, e) => {
     setinputrowsdata(data);
-    // console.log(cdate);
-    // console.log(location);
-    // console.log(category);
-    // console.log(id);
     if (location !== "" && category !== "" && cdate !== "" && id !== "") {
       e.preventDefault();
       let databody = {
@@ -239,7 +233,6 @@ const InputEdit = (props) => {
 
       const datawithdraw = await reswithdraw.json();
       setwithdrawidsave(datawithdraw.updatewithdrawDetailsResult.rows[0].id);
-      // console.log(datawithdraw.updatewithdrawDetailsResult.rows[0].id);
 
       reset();
     } else {
@@ -259,9 +252,7 @@ const InputEdit = (props) => {
             className="date"
             type="text"
             onChange={handledateChange}
-            defaultValue={
-              new Date(withdrawlist[0].date).toISOString().split("T")[0]
-            }
+            defaultValue={new Date(withdrawlist[0].date).toDateString()}
           />
           <p />
           <Label value="Location " className="fw-bold" />
