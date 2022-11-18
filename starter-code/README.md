@@ -79,7 +79,7 @@ b. {
 
 ` `"password": "987654",
 
-` `"role":"ADMIN"
+` `"role":"WORKER"
 
 }
 
