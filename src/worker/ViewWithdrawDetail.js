@@ -106,6 +106,7 @@ const ViewWithdrawDetail = (props) => {
     const data = await res.json();
     setpostdeletetable(data);
   };
+
   useEffect(async () => {
     let databody = {
       id: postDetail[0].id,
