@@ -113,6 +113,9 @@ const NewUser = () => {
         <Label value="Role" />
         <p />
         <select className="selectbox " onChange={handleroleChange}>
+          <option value="" disabled selected hidden>
+            Please Select...
+          </option>
           {postrole &&
             postrole.role.map((data, i) => {
               return (

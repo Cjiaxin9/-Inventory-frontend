@@ -70,7 +70,7 @@ const AllUser = (props) => {
 
   const [postdeleteuser, setpostdeleteuser] = useState(null);
   const handledelete = async (item) => {
-    console.log(item.id);
+    // console.log(item.id);
     let databody = {
       id: item.id,
     };

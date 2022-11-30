@@ -1,0 +1,38 @@
+.category,
+h2 {
+  height: 100%;
+  display: flex;
+  /* position: relative; */
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+}
+.Search {
+  margin-top: -40px;
+}
+.buttonExit1 {
+  margin-bottom: 10px;
+}
+
+.container {
+  margin-left: 520px;
+}
+.box {
+  margin-left: 89px;
+}
+.button {
+  margin-left: -40px;
+}
+.buttonnew {
+  width: 200px;
+  margin-left: -164px;
+  margin-top: -73px;
+  height: 30px;
+}
+.buttonSearch {
+  margin-left: 135px;
+}
+.inputbox {
+  width: 320px;
+}

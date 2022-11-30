@@ -10,7 +10,16 @@ import NewUser from "./admin/NewUser";
 import AllUser from "./admin/AllUser";
 import Adminmain from "./main/Adminmain";
 import Update from "./admin/Update";
-import Intro from "./into/Intro";
+import Intro from "./intro/Intro";
+import Supervisorpage from "./main/Supervisorpage";
+import Company_main from "./supervisor/company/Company_main";
+import Category_main from "./supervisor/category/Category_main";
+import Product_main from "./supervisor/product/Product_main";
+import Unit_main from "./supervisor/unit/Unit_main";
+import Location_main from "./supervisor/location/Location_main";
+import Stock_main from "./supervisor/Stock/Stock_main";
+import StockBalance_main from "./supervisor/Stock/StockBalance_main";
+import StockIn from "./supervisor/Stock/stockin/StockIn";
 
 function App() {
   const [wdidfromview, setWDidfromview] = useState(""); // id
@@ -21,7 +30,7 @@ function App() {
 
   return (
     <div>
-      <h2>Vending Nation</h2>
+      <h2>Vending World</h2>
 
       <Routes>
         <Route path="/" element={<Navigate to="/into" />} />
@@ -68,6 +77,17 @@ function App() {
             />
           }
         />
+        <Route path="/Supervisormainpage" element={<Supervisorpage />} />
+
+        <Route path="/view_company_main" element={<Company_main />} />
+        <Route path="/view_category_main" element={<Category_main />} />
+        <Route path="/view_product_main" element={<Product_main />} />
+        <Route path="/view_unit_main" element={<Unit_main />} />
+        <Route path="/view_location_main" element={<Location_main />} />
+
+        <Route path="/view_stock_main" element={<Stock_main />} />
+        <Route path="/view_stockbalance" element={<StockBalance_main />} />
+        <Route path="/New_Stockin" element={<StockIn />} />
       </Routes>
     </div>
   );

@@ -44,6 +44,8 @@ const Loginpage = () => {
         navigate("/withdrawMain");
       } else if (data === "ADMIN") {
         navigate("/adminpage");
+      } else if (data === "SUPERVISOR") {
+        navigate("/Supervisormainpage");
       }
     } else {
       alert("Please insert the username of password");

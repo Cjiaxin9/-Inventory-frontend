@@ -1,0 +1,10 @@
+.word {
+  color: red;
+  font-size: 2.5em;
+  margin-left: 570px;
+  font-weight: 900;
+}
+.buttonExit1 {
+  margin-left: 750px;
+  color: red;
+}

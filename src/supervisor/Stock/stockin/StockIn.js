@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import Label from "../common/Label";
-import Input from "../common/Input";
-import Button from "../common/Button";
 import { useNavigate } from "react-router-dom";
-import "../worker/worker.css";
+import { useForm } from "react-hook-form";
+import Label from "../../../common/Label";
+import Input from "../../../common/Input";
+import Button from "../../../common/Button";
+import "./Stockin.css";
 
-const NewWithdraw = () => {
+const StockIn = () => {
   const { register, handleSubmit, reset } = useForm();
   const navigate = useNavigate();
-  const [location, setlocation] = useState("");
+  const [company, setcompany] = useState("");
   const [category, setcategory] = useState("");
   const [error, setError] = useState(null);
-
   const someDate = new Date();
 
   const date = someDate.setDate(someDate.getDate());
@@ -26,40 +25,14 @@ const NewWithdraw = () => {
     // console.log(date);
     setcdate(event.target.value);
   };
-
-  //location dropdown list
-  const [postLocation, setPostLocation] = useState(null);
-
-  const fetchPostLocation = async (url) => {
-    setError(null);
-    setPostLocation(null);
-
-    try {
-      const res = await fetch(url);
-
-      if (res.status !== 200) {
-        throw new Error("Something went wrong.");
-      }
-
-      const data = await res.json();
-
-      setPostLocation({
-        location: data.location.rows,
-      });
-    } catch (err) {
-      setError(err.message);
-    }
+  // Create a state for the amount of rows you want to view
+  const [rowCount, setRowCount] = useState([]);
+  const handleAddRow = () => {
+    const inputBox = [...rowCount, []];
+    setRowCount(inputBox);
   };
 
-  useEffect(() => {
-    const url = "http://127.0.0.1:5001/location/alllocation";
-    fetchPostLocation(url);
-  }, []);
-
-  const handlelocationChange = (event) => {
-    setlocation(event.target.value);
-  };
-
+  console.log(rowCount);
   //location Category list
   const [postCategory, setPostCategory] = useState(null);
 
@@ -93,11 +66,37 @@ const NewWithdraw = () => {
     setcategory(event.target.value);
   };
 
-  // Create a state for the amount of rows you want to view
-  const [rowCount, setRowCount] = useState([]);
-  const handleAddRow = () => {
-    const inputBox = [...rowCount, []];
-    setRowCount(inputBox);
+  //location Category list
+  const [postcompany, setPostcompany] = useState(null);
+
+  const fetchPostcompany = async (url) => {
+    setError(null);
+    setPostcompany(null);
+
+    try {
+      const res = await fetch(url);
+
+      if (res.status !== 200) {
+        throw new Error("Something went wrong.");
+      }
+
+      const datacompany = await res.json();
+
+      setPostcompany({
+        company: datacompany.company.rows,
+      });
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  useEffect(() => {
+    const url = "http://127.0.0.1:5001/company/allcompany";
+    fetchPostcompany(url);
+  }, []);
+
+  const handlecompanyChange = (event) => {
+    setcompany(event.target.value);
   };
 
   //product name
@@ -161,7 +160,7 @@ const NewWithdraw = () => {
   }, []);
 
   // after submit press  send to backend
-  const [withdrawidsave, setwithdrawidsave] = useState("");
+  const [stockInidsave, setStockInidsave] = useState("");
   useEffect(() => {
     // console.log(data);
     const inputsrow = Object.keys(inputrowsdata).map(
@@ -171,8 +170,7 @@ const NewWithdraw = () => {
     inputsrow.map((oneInput) => {
       return sendOneInputToBackend(oneInput);
     });
-  }, [withdrawidsave]);
-
+  }, [stockInidsave]);
   const sendOneInputToBackend = async (oneInput) => {
     // console.log(withdrawidsave); // withdraw_id
     const restable = await fetch(
@@ -180,7 +178,7 @@ const NewWithdraw = () => {
       {
         method: "PUT",
         body: JSON.stringify({
-          withdraw_id: withdrawidsave,
+          withdraw_id: stockInidsave,
           product_name: oneInput.productName,
           Qty: oneInput.productQty,
           unit: oneInput.productUnit,
@@ -202,11 +200,9 @@ const NewWithdraw = () => {
     // console.log(location);
     // console.log(cdate);
     // console.log(category);
-    if (location !== "" && category !== "" && cdate !== "") {
+    if (cdate !== "") {
       e.preventDefault();
       let databody = {
-        location: location,
-        category: category,
         date: cdate,
       };
       const reswithdraw = await fetch("http://127.0.0.1:5001/withdraw/create", {
@@ -219,7 +215,7 @@ const NewWithdraw = () => {
 
       const datawithdraw = await reswithdraw.json();
 
-      setwithdrawidsave(datawithdraw.rows[0].id);
+      setStockInidsave(datawithdraw.rows[0].id);
       submitall = true;
       if (submitall === true) {
         navigate("/withdrawMain"); //to be change
@@ -234,9 +230,16 @@ const NewWithdraw = () => {
     navigate(-1);
   };
 
+  let total = [];
+  for (let i = 0; i < rowCount.length; i++) {
+    total.push({
+      producttotalprice: [`${i}`].userInput,
+    });
+  }
+  console.log(total);
   return (
     <div className="Newwithdraw">
-      <h2> Withdraw page </h2>
+      <h2> New Stock In page </h2>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="date">
           <Label value="Date " className="fw-bold" />
@@ -247,16 +250,16 @@ const NewWithdraw = () => {
             onChange={handledateChange}
           />
           <p />
-          <Label value="Location " className="fw-bold" />
-          <select onChange={handlelocationChange}>
+          <Label value="Company " className="fw-bold" />
+          <select onChange={handlecompanyChange}>
             <option value="" disabled selected hidden>
               Please Select...
             </option>
-            {postLocation &&
-              postLocation.location.map((data, i) => {
+            {postcompany &&
+              postcompany.company.map((data, i) => {
                 return (
-                  <option value={data.location} key={i}>
-                    {data.location}
+                  <option value={data.company} key={i}>
+                    {data.company}
                   </option>
                 );
               })}
@@ -289,9 +292,8 @@ const NewWithdraw = () => {
         >
           Exit
         </Button>
-
         <div className="container row w-100 d-flex justify-content-center">
-          <div className="col-sm-6 px-4 fw-bold">
+          <div className="col-sm-5 px-4 fw-bold">
             <Label value="Product " />
           </div>
           <div className="col-sm-1 px-4 fw-bold">
@@ -300,7 +302,13 @@ const NewWithdraw = () => {
           <div className="col-sm-2 px-4 fw-bold ">
             <Label value="unit " />
           </div>
-          <div className="col-sm-2 px-4 fw-bold ">
+          <div className="col-sm-1 px-4 fw-bold ">
+            <Label value="unit price " />
+          </div>
+          <div className="col-sm-1 px-4 fw-bold ">
+            <Label value="total price " />
+          </div>
+          <div className="col-sm-1 px-4 fw-bold ">
             <Label value="Remark " />
           </div>
         </div>
@@ -310,7 +318,7 @@ const NewWithdraw = () => {
               className="container row w-100 d-flex justify-content-center"
               key={index}
             >
-              <div className="col-sm-6 my-2 px-0">
+              <div className="col-sm-5 my-2 px-0">
                 <select {...register(`${index}.productName`)}>
                   <option value="" disabled selected hidden>
                     Please Select...
@@ -347,7 +355,22 @@ const NewWithdraw = () => {
                     })}
                 </select>
               </div>
-              <div className="col-sm-2 my-2 px-0 ms-3">
+              <div className="col-sm-1 my-2 px-0 ms-3">
+                <Input
+                  type="number"
+                  register={register}
+                  inputName={`${index}.productunitprice`}
+                />
+              </div>
+              <div className="col-sm-1 my-2 px-0 ms-3">
+                <Input
+                  type="number"
+                  register={register}
+                  inputName={`${index}.producttotalprice`}
+                  value={total}
+                />
+              </div>
+              <div className="col-sm-1 my-2 px-0 ms-3">
                 <Input
                   type="text"
                   register={register}
@@ -365,4 +388,4 @@ const NewWithdraw = () => {
   );
 };
 
-export default NewWithdraw;
+export default StockIn;
