@@ -22,6 +22,7 @@
 * can only edit if the date is created in the current date
 
 - **Supervisor**
+* can create new /view and edit a stockin list to record the quantity of stock in
 * can create new /view and edit a company name (suppliers) 
 * can create new /view and edit a locaion name 
 * can create new /view and edit a product name 
@@ -99,6 +100,6 @@ c. Supervisor{
 
 <br> 8. # **Things that can be add on**
 
-- Stock in so that we can calculate the balance stock
+- calculate the balance stock
 - A user account setting for individual user for them to change the password
 - Authorization
