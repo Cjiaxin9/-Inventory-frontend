@@ -1,20 +1,22 @@
 import React, { useEffect, useState } from "react";
-import Card from "./Card";
-import MainCard from "./MainCard";
-import WithdrawRecord_main from "./WithdrawRecord_main";
-import "../worker/worker.css";
-import Input from "../common/Input";
-import Button from "../common/Button";
+
+import Label from "../../../common/Label";
+import Input from "../../../common/Input";
+import Button from "../../../common/Button";
+import Card from "./Stockincard";
+import MainCard from "./Stockinmaincard";
+import "../../../worker/worker.css";
+
 import { useNavigate } from "react-router-dom";
 
-const ViewWithdrawDetail = (props) => {
+const StockinDetail = (props) => {
   const navigate = useNavigate();
 
-  const [id, setId] = useState(props.wdidfromview);
+  const [id, setId] = useState(props.siidfromview);
   const [postDetail, setPostDetail] = useState(null);
   const [postDetailTable, setPostDetailTable] = useState(null);
   const [error, setError] = useState(null);
-  const [listdate, steListdate] = useState(props.wdDatefromview);
+  const [listdate, steListdate] = useState(props.siDatefromview);
 
   // to fetch
 
@@ -56,15 +58,15 @@ const ViewWithdrawDetail = (props) => {
 
       const datatable = await restable.json();
 
-      setPostDetailTable(datatable.rows); //from withdraw product table
+      setPostDetailTable(datatable.rows); //from  product table
     } catch (err) {
       setError(err.message);
     }
   };
 
   useEffect(() => {
-    const url = `https://inventorybackend-hz92.onrender.com/withdraw/${id}`;
-    const url2 = `https://inventorybackend-hz92.onrender.com/withdrawproduct/${id}`;
+    const url = `https://inventorybackend-hz92.onrender.com/stockin/${id}`;
+    const url2 = `https://inventorybackend-hz92.onrender.com/stockinproduct/${id}`;
     fetchPostDetail(url, url2);
   }, [id]);
   const someDate = new Date();
@@ -96,7 +98,7 @@ const ViewWithdrawDetail = (props) => {
     };
 
     const res = await fetch(
-      "https://inventorybackend-hz92.onrender.com/withdrawproduct/delete",
+      "https://inventorybackend-hz92.onrender.com/stockinproduct/delete",
       {
         method: "DELETE",
         body: JSON.stringify(databody),
@@ -116,7 +118,7 @@ const ViewWithdrawDetail = (props) => {
     };
 
     const res = await fetch(
-      "https://inventorybackend-hz92.onrender.com/withdraw/delete",
+      "https://inventorybackend-hz92.onrender.com/stockin/delete",
       {
         method: "DELETE",
         body: JSON.stringify(databody),
@@ -131,7 +133,7 @@ const ViewWithdrawDetail = (props) => {
     deleteall = true;
     if (deleteall === true) {
       //
-      navigate("/withdrawMain");
+      navigate("/view_stockin_main");
     }
   }, [postdeletetable]);
 
@@ -141,12 +143,12 @@ const ViewWithdrawDetail = (props) => {
   };
   return (
     <div>
-      <h2>Withdraw Detail List</h2>
+      <h2>Stock In Detail List</h2>
       <div className="container row w-100 d-flex justify-content-center">
         <MainCard
           className=" col-sm-3 fw-bold border border-secondary text-center"
           date="Date "
-          location="Location"
+          company="Company"
           category="Category"
         />
         {postDetail &&
@@ -156,7 +158,7 @@ const ViewWithdrawDetail = (props) => {
                 <MainCard
                   className="col-sm-3 border border-secondary text-center"
                   date={new Date(item.date).toDateString()}
-                  location={item.location}
+                  company={item.company}
                   category={item.category}
                   key={i}
                 />
@@ -213,4 +215,4 @@ const ViewWithdrawDetail = (props) => {
   );
 };
 
-export default ViewWithdrawDetail;
+export default StockinDetail;

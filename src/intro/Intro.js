@@ -9,10 +9,10 @@ const Intro = () => {
   };
   return (
     <div>
-      <h2>An inventory for Vending Nation company</h2>
+      <h2>An inventory for Vending World company</h2>
       <div className="into">
         <p />
-        <h3>Background of Vending Nation</h3>
+        <h3>Background of Vending World</h3>
         <lu>
           {" "}
           - inventory tracking system for drinks and snacks in vending machines
@@ -38,6 +38,19 @@ const Intro = () => {
         <p />
         <lu>- can view and edit all the withdraw lists that were created</lu>
         <p />
+        <li>Supervisor</li>
+        <p />
+        <lu>
+          - can create a new Stockin list to record the drinks and drink
+          quantity intake
+        </lu>
+        <p />
+        <lu>- can view and edit all the Stockin lists that were created</lu>
+        <p />
+        <lu>
+          - can view, edit and create new company(supplier), location, unit,
+          category and product name
+        </lu>
       </div>
       <Button
         className="buttonlogin btn-default"

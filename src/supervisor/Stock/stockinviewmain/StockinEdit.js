@@ -1,38 +1,79 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Label from "../../../common/Label";
 import Input from "../../../common/Input";
 import Button from "../../../common/Button";
-import "./Stockin.css";
+import { useNavigate } from "react-router-dom";
+// import "../worker/worker.css";
 
-const StockIn = () => {
-  const { register, handleSubmit, reset } = useForm();
+const StockinEdit = (props) => {
   const navigate = useNavigate();
-  const [company, setcompany] = useState("");
-  const [category, setcategory] = useState("");
+  const [stockinlist, setstockinlist] = useState(props.siDetailList);
+  const [stockinlistproduct, setstockinlistproduct] = useState(
+    props.siDetailListTable
+  );
+
+  const [company, setcompany] = useState(stockinlist[0].company);
+  const [category, setcategory] = useState(stockinlist[0].category);
   const [error, setError] = useState(null);
+  const id = stockinlist[0].id;
+
+  const defaultValues = {};
+  for (let i = 0; i < stockinlistproduct.length; i++) {
+    defaultValues[`${i}`] = {};
+    defaultValues[`${i}`].productName = stockinlistproduct[i].product_name;
+    defaultValues[`${i}`].productQty = stockinlistproduct[i].qty;
+    defaultValues[`${i}`].productUnit = stockinlistproduct[i].unit;
+    defaultValues[`${i}`].productRemarks = stockinlistproduct[i].remark;
+    defaultValues[`${i}`].id = stockinlistproduct[i].id;
+  }
+  const { register, handleSubmit, reset } = useForm({ defaultValues });
+
   const someDate = new Date();
 
   const date = someDate.setDate(someDate.getDate());
-  // const defaultValue = new Date(date).toISOString();
-  const defaultValue = new Date(date).toISOString().split("T")[0];
 
-  // console.log(defaultValue);
-  const [cdate, setcdate] = useState(defaultValue);
+  const today = new Date(date).toDateString();
+
+  const [cdate, setcdate] = useState(
+    new Date(stockinlist[0].date).toDateString()
+  );
   const handledateChange = (event) => {
-    let date = new Date(event.target.value).toUTCString();
-    // console.log(date);
     setcdate(event.target.value);
   };
-  // Create a state for the amount of rows you want to view
-  const [rowCount, setRowCount] = useState([]);
-  const handleAddRow = () => {
-    const inputBox = [...rowCount, []];
-    setRowCount(inputBox);
+
+  //company dropdown list
+  const [postcompany, setPostcompany] = useState(null);
+  const fetchPostcompany = async (url) => {
+    setError(null);
+    setPostcompany(null);
+
+    try {
+      const res = await fetch(url);
+
+      if (res.status !== 200) {
+        throw new Error("Something went wrong.");
+      }
+
+      const datacompany = await res.json();
+
+      setPostcompany({
+        company: datacompany.company.rows,
+      });
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
-  // console.log(rowCount);
+  useEffect(() => {
+    const url = "https://inventorybackend-hz92.onrender.com/company/allcompany";
+    fetchPostcompany(url);
+  }, []);
+
+  const handlecompanyChange = (event) => {
+    setcompany(event.target.value);
+  };
+
   //location Category list
   const [postCategory, setPostCategory] = useState(null);
 
@@ -67,37 +108,12 @@ const StockIn = () => {
     setcategory(event.target.value);
   };
 
-  //company dropdown list
-  const [postcompany, setPostcompany] = useState(null);
+  // Create a state for the amount of rows you want to view
+  const [rowCount, setRowCount] = useState(stockinlistproduct);
 
-  const fetchPostcompany = async (url) => {
-    setError(null);
-    setPostcompany(null);
-
-    try {
-      const res = await fetch(url);
-
-      if (res.status !== 200) {
-        throw new Error("Something went wrong.");
-      }
-
-      const datacompany = await res.json();
-
-      setPostcompany({
-        company: datacompany.company.rows,
-      });
-    } catch (err) {
-      setError(err.message);
-    }
-  };
-
-  useEffect(() => {
-    const url = "https://inventorybackend-hz92.onrender.com/company/allcompany";
-    fetchPostcompany(url);
-  }, []);
-
-  const handlecompanyChange = (event) => {
-    setcompany(event.target.value);
+  const handleAddRow = () => {
+    const inputBox = [...rowCount, []];
+    setRowCount(inputBox);
   };
 
   //product name
@@ -162,9 +178,8 @@ const StockIn = () => {
   }, []);
 
   // after submit press  send to backend
-  const [stockInidsave, setStockInidsave] = useState("");
+  const [stockinidsave, setstockinidsave] = useState("");
   useEffect(() => {
-    // console.log(data);
     const inputsrow = Object.keys(inputrowsdata).map(
       (key) => inputrowsdata[key]
     ); // make from object inside object to array
@@ -172,47 +187,48 @@ const StockIn = () => {
     inputsrow.map((oneInput) => {
       return sendOneInputToBackend(oneInput);
     });
-  }, [stockInidsave]);
+  }, [stockinidsave]);
+
   const sendOneInputToBackend = async (oneInput) => {
-    // console.log(withdrawidsave); // withdraw_id
+    // console.log(oneInput);
     const restable = await fetch(
-      "https://inventorybackend-hz92.onrender.com/stockinproduct/create",
+      "https://inventorybackend-hz92.onrender.com/stockinproduct/update",
       {
-        method: "PUT",
+        method: "PATCH",
         body: JSON.stringify({
-          stockin_id: stockInidsave,
+          stockin_id: stockinidsave,
           product_name: oneInput.productName,
           Qty: oneInput.productQty,
           unit: oneInput.productUnit,
           remark: oneInput.productRemarks,
+          id: oneInput.id,
         }),
         headers: {
           "Content-Type": "application/json",
         },
       }
     );
-    const datatable = await restable.json(); // return{status: 'ok', message: 'saved'} on the inspect - save in backend
-    // console.log(datatable);
+    const datatable = await restable.json();
+    if (datatable.message == "updated successfully") {
+      navigate("/view_stockin_main"); //to change
+    }
   };
   //submit button
-  let submitall = false;
   const [inputrowsdata, setinputrowsdata] = useState("");
   const onSubmit = async (data, e) => {
     setinputrowsdata(data);
-    // console.log(location);
-    // console.log(cdate);
-    // console.log(category);
-    if (company !== "" && category !== "" && cdate !== "") {
+    if (company !== "" && category !== "" && cdate !== "" && id !== "") {
       e.preventDefault();
       let databody = {
-        date: cdate,
         company: company,
         category: category,
+        date: cdate,
+        id: id,
       };
       const resstockin = await fetch(
-        "https://inventorybackend-hz92.onrender.com/stockin/create",
+        "https://inventorybackend-hz92.onrender.com/stockin/update",
         {
-          method: "PUT",
+          method: "PATCH",
           body: JSON.stringify(databody),
           headers: {
             "Content-Type": "application/json",
@@ -222,43 +238,43 @@ const StockIn = () => {
 
       const datastockin = await resstockin.json();
 
-      setStockInidsave(datastockin.rows[0].id);
-      submitall = true;
-      if (submitall === true) {
-        navigate("/Supervisormainpage"); //to be change
-      }
+      setstockinidsave(datastockin.updatewstockinDetailsResult.rows[0].id);
+      //   console.log(datastockin.updatewstockinDetailsResult.rows[0].id);
       reset();
     } else {
       alert("Please insert correct information ");
     }
   };
-  //back button
   const handleback = () => {
     navigate(-1);
   };
-
   return (
     <div className="Newwithdraw">
-      <h2> New Stock In page </h2>
+      <h2> Stock in page - edit </h2>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="date">
           <Label value="Date " className="fw-bold" />
           <input
             className="date"
-            value={cdate}
             type="text"
             onChange={handledateChange}
+            defaultValue={new Date(stockinlist[0].date).toDateString()}
           />
           <p />
           <Label value="Company " className="fw-bold" />
           <select onChange={handlecompanyChange}>
-            <option value="" disabled selected hidden>
-              Please Select...
-            </option>
             {postcompany &&
               postcompany.company.map((data, i) => {
                 return (
-                  <option value={data.company} key={i}>
+                  <option
+                    value={data.company}
+                    key={i}
+                    selected={
+                      stockinlist[0].company === data.company
+                        ? "selected"
+                        : null
+                    }
+                  >
                     {data.company}
                   </option>
                 );
@@ -267,13 +283,18 @@ const StockIn = () => {
           <p />
           <Label value="Category " className="fw-bold" />
           <select onChange={handlecategoryChange}>
-            <option value="" disabled selected hidden>
-              Please Select...
-            </option>
             {postCategory &&
               postCategory.category.map((data, i) => {
                 return (
-                  <option value={data.category} key={i}>
+                  <option
+                    value={data.category}
+                    key={i}
+                    selected={
+                      stockinlist[0].category === data.category
+                        ? "selected"
+                        : null
+                    }
+                  >
                     {data.category}
                   </option>
                 );
@@ -281,25 +302,19 @@ const StockIn = () => {
           </select>
         </div>
         <p />
-        <Button className="add" onClick={() => handleAddRow()} type="button">
-          + Add
-        </Button>
+        {/*<Button className="add" onClick={() => handleAddRow()} type="button">
+            + Add
+              </Button>*/}
         <p />
-        <Button
-          className="buttonbackdetailNew btn-default"
-          type="button"
-          onClick={() => handleback()}
-        >
-          Exit
-        </Button>
+
         <div className="container row w-100 d-flex justify-content-center">
           <div className="col-sm-6 px-4 fw-bold">
             <Label value="Product " />
           </div>
-          <div className="col-sm-1 px-4 fw-bold">
+          <div className="col-sm-2 px-4 fw-bold">
             <Label value="Qty " />
           </div>
-          <div className="col-sm-2 px-4 fw-bold ">
+          <div className="col-sm-1 px-4 fw-bold ">
             <Label value="unit " />
           </div>
           <div className="col-sm-2 px-4 fw-bold ">
@@ -314,35 +329,46 @@ const StockIn = () => {
             >
               <div className="col-sm-6 my-2 px-0">
                 <select {...register(`${index}.productName`)}>
-                  <option value="" disabled selected hidden>
-                    Please Select...
-                  </option>
                   {postProduct &&
                     postProduct.product.map((data, i) => {
                       return (
-                        <option value={data.product_name} key={i}>
+                        <option
+                          value={data.product_name}
+                          key={i}
+                          selected={
+                            defaultValues[`${index}`].productName ===
+                            data.product_name
+                              ? "selected"
+                              : null
+                          }
+                        >
                           {data.product_name}
                         </option>
                       );
                     })}
                 </select>
               </div>
-              <div className="col-sm-1 my-2 px-0">
+              <div className="col-sm-2 my-2 px-0">
                 <Input
                   type="number"
                   register={register}
                   inputName={`${index}.productQty`}
                 />
               </div>
-              <div className="col-sm-2 my-2  px-0 ms-2">
+              <div className="col-sm-1 my-2  px-0 ms-2">
                 <select {...register(`${index}.productUnit`)}>
-                  <option value="" disabled selected hidden>
-                    Please Select...
-                  </option>
                   {postUnit &&
                     postUnit.unit.map((data, i) => {
                       return (
-                        <option value={data.unit} key={i}>
+                        <option
+                          value={data.unit}
+                          key={i}
+                          selected={
+                            defaultValues[`${index}`].productUnit === data.unit
+                              ? "selected"
+                              : null
+                          }
+                        >
                           {data.unit}
                         </option>
                       );
@@ -360,11 +386,18 @@ const StockIn = () => {
           );
         })}
         <Button className="btn-default" type="submit">
-          Submit
+          Submit Edit
         </Button>
       </form>
+      <Button
+        className="buttonExit1"
+        type="button"
+        onClick={() => handleback()}
+      >
+        Exit without save
+      </Button>
     </div>
   );
 };
 
-export default StockIn;
+export default StockinEdit;

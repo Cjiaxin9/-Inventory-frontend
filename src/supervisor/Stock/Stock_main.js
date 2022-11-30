@@ -9,7 +9,7 @@ const Stock_main = () => {
     navigate("/New_Stockin");
   };
   const handleList = () => {
-    navigate("/view_withdraw_main");
+    navigate("/view_stockin_main");
   };
   const handleExit = () => {
     navigate("/Supervisormainpage");

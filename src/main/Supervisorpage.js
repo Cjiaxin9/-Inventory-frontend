@@ -77,7 +77,11 @@ const Supervisorpage = () => {
       >
         Unit list
       </Button>
-      <Button className="buttonExit" type="button" onClick={() => handleExit()}>
+      <Button
+        className="buttonExit2"
+        type="button"
+        onClick={() => handleExit()}
+      >
         Exit
       </Button>
     </div>

@@ -11,3 +11,25 @@
 .into {
   margin-left: 80px;
 }
+.buttonStock {
+  margin-top: 30px;
+  margin-left: 400px;
+}
+.buttonCompanyList {
+  margin-left: 10px;
+}
+.buttonCategoryList {
+  margin-left: 10px;
+}
+.buttonProductList {
+  margin-left: 10px;
+}
+.buttonLocationList {
+  margin-left: 10px;
+}
+.buttonUnitList {
+  margin-left: 10px;
+}
+.buttonExit2 {
+  margin-left: 100px;
+}

@@ -20,6 +20,9 @@ import Location_main from "./supervisor/location/Location_main";
 import Stock_main from "./supervisor/Stock/Stock_main";
 import StockBalance_main from "./supervisor/Stock/StockBalance_main";
 import StockIn from "./supervisor/Stock/stockin/StockIn";
+import Stockinviewmain from "./supervisor/Stock/stockinviewmain/Stockinviewmain";
+import StockinDetail from "./supervisor/Stock/stockinviewmain/StockinDetail";
+import StockinEdit from "./supervisor/Stock/stockinviewmain/StockinEdit";
 
 function App() {
   const [wdidfromview, setWDidfromview] = useState(""); // id
@@ -27,6 +30,10 @@ function App() {
   const [wdDetailListTable, setWDDetailListTable] = useState(""); //wtihdraw product table
   const [wdDetailList, setWDDetailList] = useState(""); //withdraw
   const [adminidfromview, setAdminidfromview] = useState(""); //admin userlist
+  const [siidfromview, setSIidfromview] = useState(""); // id
+  const [siDatefromview, setSIDatefromview] = useState(""); //date
+  const [siDetailListTable, setSIDetailListTable] = useState(""); //wtihdraw product table
+  const [siDetailList, setSIDetailList] = useState(""); //withdraw
 
   return (
     <div>
@@ -88,6 +95,36 @@ function App() {
         <Route path="/view_stock_main" element={<Stock_main />} />
         <Route path="/view_stockbalance" element={<StockBalance_main />} />
         <Route path="/New_Stockin" element={<StockIn />} />
+        <Route
+          path="/view_stockin_main"
+          element={
+            <Stockinviewmain
+              setSIidfromview={setSIidfromview}
+              setSIDatefromview={setSIDatefromview}
+            />
+          }
+        />
+        <Route
+          path="/view_stockin_detail"
+          element={
+            <StockinDetail
+              siidfromview={siidfromview}
+              siDatefromview={siDatefromview}
+              setSIDetailListTable={setSIDetailListTable}
+              setSIDetailList={setSIDetailList}
+            />
+          }
+        />
+
+        <Route
+          path="/edit_stockin_detail"
+          element={
+            <StockinEdit
+              siDetailListTable={siDetailListTable}
+              siDetailList={siDetailList}
+            />
+          }
+        />
       </Routes>
     </div>
   );
