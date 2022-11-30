@@ -36,8 +36,8 @@
 - Node.js
 
 6. # **Github Repositories:**
-   Client: <https://github.com/Cjiaxin9/-Inventory-frontend.git>
-   Server: <https://github.com/Cjiaxin9/Inventory-backend.git>
+  * Client: <https://github.com/Cjiaxin9/-Inventory-frontend.git>
+  * Server: <https://github.com/Cjiaxin9/Inventory-backend.git>
 
 7. # **How to install and run the project:**
    **Create a database In sql (Shell) copy and paste the following:**
