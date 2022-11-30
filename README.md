@@ -1,8 +1,8 @@
-﻿Project #4: An inventory for Vending Nation company (Full Stack App)
+﻿Project #4: An inventory for Vending World company (Full Stack App)
 
-1. # **Background of Vending Nation**
+1. # **Background of Vending World**
 
-- Vending Nation is a company that sell snacks and drinks by vending machine
+- Vending World is a company that sell snacks and drinks by vending machine
 
 2. # **Overview of this application**
 
@@ -22,12 +22,8 @@
 * can only edit if the date is created in the current date
 
 - **Supervisor**
-* can create new /view and edit a stockin list to record the quantity of stock in
-* can create new /view and edit a company name (suppliers) 
-* can create new /view and edit a locaion name 
-* can create new /view and edit a product name 
-* can create new /view and edit a unit
-* can create new /view and edit category
+*can view and edit all the Stockin lists that were created
+*can view, edit and create new company(supplier), location, unit, category and product name
 
 4. # **Technologies used to build frontend:**
 
