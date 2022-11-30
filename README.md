@@ -45,7 +45,7 @@
 7. # **How to install and run the project:**
    **Create a database In sql (Shell) copy and paste the following:**
 
-- create database vendingnation;
+- create database vendinworld;
 - grant all privileges on database vendingnation to db_user;
 - grant select, insert, update, delete on all tables in schema public to db_user;
 
