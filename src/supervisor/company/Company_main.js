@@ -32,13 +32,16 @@ const Company_main = () => {
       company: userInput.toUpperCase(),
     };
     // console.log(databody);
-    const res = await fetch("http://127.0.0.1:5001/company/create", {
-      method: "PUT",
-      body: JSON.stringify(databody),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const res = await fetch(
+      "https://inventorybackend-hz92.onrender.com/company/create",
+      {
+        method: "PUT",
+        body: JSON.stringify(databody),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     const data = await res.json();
     if (data.message == "saved") {
@@ -70,7 +73,7 @@ const Company_main = () => {
   };
 
   useEffect(() => {
-    const url = "http://127.0.0.1:5001/company/allcompany";
+    const url = "https://inventorybackend-hz92.onrender.com/company/allcompany";
     fetchPostDetail(url);
   }, []);
 
@@ -134,13 +137,16 @@ const Company_main = () => {
       newcompany: lineedit.toUpperCase(),
       company: item.company,
     };
-    const res = await fetch("http://127.0.0.1:5001/company/update", {
-      method: "PATCH",
-      body: JSON.stringify(databody),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const res = await fetch(
+      "https://inventorybackend-hz92.onrender.com/company/update",
+      {
+        method: "PATCH",
+        body: JSON.stringify(databody),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     const data = await res.json();
 
@@ -154,13 +160,16 @@ const Company_main = () => {
     let databody = {
       company: item.company,
     };
-    const res = await fetch("http://127.0.0.1:5001/company/delete", {
-      method: "DELETE",
-      body: JSON.stringify(databody),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const res = await fetch(
+      "https://inventorybackend-hz92.onrender.com/company/delete",
+      {
+        method: "DELETE",
+        body: JSON.stringify(databody),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     const data = await res.json();
 
     if (data.message == "deleted") {

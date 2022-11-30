@@ -58,7 +58,8 @@ const StockIn = () => {
   };
 
   useEffect(() => {
-    const url = "http://127.0.0.1:5001/category/allcategory";
+    const url =
+      "https://inventorybackend-hz92.onrender.com/category/allcategory";
     fetchPostCategory(url);
   }, []);
 
@@ -91,7 +92,7 @@ const StockIn = () => {
   };
 
   useEffect(() => {
-    const url = "http://127.0.0.1:5001/company/allcompany";
+    const url = "https://inventorybackend-hz92.onrender.com/company/allcompany";
     fetchPostcompany(url);
   }, []);
 
@@ -125,7 +126,8 @@ const StockIn = () => {
   };
 
   useEffect(() => {
-    const url = "http://127.0.0.1:5001/productlist/allproductlist";
+    const url =
+      "https://inventorybackend-hz92.onrender.com/productlist/allproductlist";
     fetchPostProduct(url);
   }, []);
 
@@ -155,7 +157,7 @@ const StockIn = () => {
   };
 
   useEffect(() => {
-    const url = "http://127.0.0.1:5001/unit/allunit";
+    const url = "https://inventorybackend-hz92.onrender.com/unit/allunit";
     fetchPostUnit(url);
   }, []);
 
@@ -174,7 +176,7 @@ const StockIn = () => {
   const sendOneInputToBackend = async (oneInput) => {
     // console.log(withdrawidsave); // withdraw_id
     const restable = await fetch(
-      "http://127.0.0.1:5001/withdrawproduct/create",
+      "https://inventorybackend-hz92.onrender.com/withdrawproduct/create",
       {
         method: "PUT",
         body: JSON.stringify({
@@ -205,13 +207,16 @@ const StockIn = () => {
       let databody = {
         date: cdate,
       };
-      const reswithdraw = await fetch("http://127.0.0.1:5001/withdraw/create", {
-        method: "PUT",
-        body: JSON.stringify(databody),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const reswithdraw = await fetch(
+        "https://inventorybackend-hz92.onrender.com/withdraw/create",
+        {
+          method: "PUT",
+          body: JSON.stringify(databody),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       const datawithdraw = await reswithdraw.json();
 

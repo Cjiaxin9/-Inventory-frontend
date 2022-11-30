@@ -63,8 +63,8 @@ const ViewWithdrawDetail = (props) => {
   };
 
   useEffect(() => {
-    const url = `http://127.0.0.1:5001/withdraw/${id}`;
-    const url2 = `http://127.0.0.1:5001/withdrawproduct/${id}`;
+    const url = `https://inventorybackend-hz92.onrender.com/withdraw/${id}`;
+    const url2 = `https://inventorybackend-hz92.onrender.com/withdrawproduct/${id}`;
     fetchPostDetail(url, url2);
   }, [id]);
   const someDate = new Date();
@@ -95,13 +95,16 @@ const ViewWithdrawDetail = (props) => {
       id: postDetail[0].id,
     };
 
-    const res = await fetch("http://127.0.0.1:5001/withdrawproduct/delete", {
-      method: "DELETE",
-      body: JSON.stringify(databody),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const res = await fetch(
+      "https://inventorybackend-hz92.onrender.com/withdrawproduct/delete",
+      {
+        method: "DELETE",
+        body: JSON.stringify(databody),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     const data = await res.json();
     setpostdeletetable(data);
@@ -112,13 +115,16 @@ const ViewWithdrawDetail = (props) => {
       id: postDetail[0].id,
     };
 
-    const res = await fetch("http://127.0.0.1:5001/withdraw/delete", {
-      method: "DELETE",
-      body: JSON.stringify(databody),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const res = await fetch(
+      "https://inventorybackend-hz92.onrender.com/withdraw/delete",
+      {
+        method: "DELETE",
+        body: JSON.stringify(databody),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     const data = await res.json();
     setpostdeletelist(data);
 

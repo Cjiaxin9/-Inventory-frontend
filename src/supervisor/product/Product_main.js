@@ -32,13 +32,16 @@ const Product_main = () => {
       product_name: userInput.toUpperCase(),
     };
 
-    const res = await fetch("http://127.0.0.1:5001/productlist/create", {
-      method: "PUT",
-      body: JSON.stringify(databody),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const res = await fetch(
+      "https://inventorybackend-hz92.onrender.com/productlist/create",
+      {
+        method: "PUT",
+        body: JSON.stringify(databody),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     const data = await res.json();
     if (data.message == "saved") {
@@ -70,7 +73,8 @@ const Product_main = () => {
   };
 
   useEffect(() => {
-    const url = "http://127.0.0.1:5001/productlist/allproductlist";
+    const url =
+      "https://inventorybackend-hz92.onrender.com/productlist/allproductlist";
     fetchPostDetail(url);
   }, []);
 
@@ -136,13 +140,16 @@ const Product_main = () => {
       newproduct_name: lineedit.toUpperCase(),
       product_name: item.product_name,
     };
-    const res = await fetch("http://127.0.0.1:5001/productlist/update", {
-      method: "PATCH",
-      body: JSON.stringify(databody),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const res = await fetch(
+      "https://inventorybackend-hz92.onrender.com/productlist/update",
+      {
+        method: "PATCH",
+        body: JSON.stringify(databody),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     const data = await res.json();
 
@@ -156,13 +163,16 @@ const Product_main = () => {
     let databody = {
       product_name: item.product_name,
     };
-    const res = await fetch("http://127.0.0.1:5001/productlist/delete", {
-      method: "DELETE",
-      body: JSON.stringify(databody),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const res = await fetch(
+      "https://inventorybackend-hz92.onrender.com/productlist/delete",
+      {
+        method: "DELETE",
+        body: JSON.stringify(databody),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     const data = await res.json();
 
     if (data.message == "deleted") {

@@ -32,13 +32,16 @@ const Unit_main = () => {
       unit: userInput.toUpperCase(),
     };
 
-    const res = await fetch("http://127.0.0.1:5001/unit/create", {
-      method: "PUT",
-      body: JSON.stringify(databody),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const res = await fetch(
+      "https://inventorybackend-hz92.onrender.com/unit/create",
+      {
+        method: "PUT",
+        body: JSON.stringify(databody),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     const data = await res.json();
     if (data.message == "saved") {
@@ -70,7 +73,7 @@ const Unit_main = () => {
   };
 
   useEffect(() => {
-    const url = "http://127.0.0.1:5001/unit/allunit";
+    const url = "https://inventorybackend-hz92.onrender.com/unit/allunit";
     fetchPostDetail(url);
   }, []);
 
@@ -134,13 +137,16 @@ const Unit_main = () => {
       newunit: lineedit.toUpperCase(),
       unit: item.unit,
     };
-    const res = await fetch("http://127.0.0.1:5001/unit/update", {
-      method: "PATCH",
-      body: JSON.stringify(databody),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const res = await fetch(
+      "https://inventorybackend-hz92.onrender.com/unit/update",
+      {
+        method: "PATCH",
+        body: JSON.stringify(databody),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     const data = await res.json();
 
@@ -155,13 +161,16 @@ const Unit_main = () => {
     let databody = {
       unit: item.unit,
     };
-    const res = await fetch("http://127.0.0.1:5001/unit/delete", {
-      method: "DELETE",
-      body: JSON.stringify(databody),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const res = await fetch(
+      "https://inventorybackend-hz92.onrender.com/unit/delete",
+      {
+        method: "DELETE",
+        body: JSON.stringify(databody),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     const data = await res.json();
     // console.log(data);
     if (data.message == "deleted") {

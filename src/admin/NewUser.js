@@ -37,7 +37,7 @@ const NewUser = () => {
   };
 
   useEffect(() => {
-    const url = "http://127.0.0.1:5001/role/allrole";
+    const url = "https://inventorybackend-hz92.onrender.com/role/allrole";
     fetchPostrole(url);
   }, []);
 
@@ -59,13 +59,16 @@ const NewUser = () => {
         password: password,
         role: role,
       };
-      const res = await fetch("http://127.0.0.1:5001/users/create", {
-        method: "PUT",
-        body: JSON.stringify(databody),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const res = await fetch(
+        "https://inventorybackend-hz92.onrender.com/users/create",
+        {
+          method: "PUT",
+          body: JSON.stringify(databody),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       const data = await res.json();
 

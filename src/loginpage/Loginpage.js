@@ -26,13 +26,16 @@ const Loginpage = () => {
         username: username,
         password: password,
       };
-      const res = await fetch("http://127.0.0.1:5001/users/login", {
-        method: "POST",
-        body: JSON.stringify(databody),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const res = await fetch(
+        "https://inventorybackend-hz92.onrender.com/users/login",
+        {
+          method: "POST",
+          body: JSON.stringify(databody),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       const data = await res.json();
       // setRole(data);

@@ -29,7 +29,7 @@ const AllUser = (props) => {
   };
 
   useEffect(() => {
-    const url = "http://127.0.0.1:5001/users/allusers";
+    const url = "https://inventorybackend-hz92.onrender.com/users/allusers";
     fetchPostDetail(url);
   }, []);
 
@@ -74,13 +74,16 @@ const AllUser = (props) => {
     let databody = {
       id: item.id,
     };
-    const res = await fetch("http://127.0.0.1:5001/users/delete", {
-      method: "DELETE",
-      body: JSON.stringify(databody),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const res = await fetch(
+      "https://inventorybackend-hz92.onrender.com/users/delete",
+      {
+        method: "DELETE",
+        body: JSON.stringify(databody),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     const data = await res.json();
 
     if (data.message == "delete successfully") {

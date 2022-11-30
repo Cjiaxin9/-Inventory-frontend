@@ -31,7 +31,8 @@ const WithdrawRecord_main = (props) => {
   };
   const [detail, setdetail] = useState([]);
   useEffect(() => {
-    const url = "http://127.0.0.1:5001/withdraw/allwithdraw";
+    const url =
+      "https://inventorybackend-hz92.onrender.com/withdraw/allwithdraw";
     fetchdatafromDB(url);
   }, []);
 

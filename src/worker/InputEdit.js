@@ -67,7 +67,8 @@ const InputEdit = (props) => {
   };
 
   useEffect(() => {
-    const url = "http://127.0.0.1:5001/location/alllocation";
+    const url =
+      "https://inventorybackend-hz92.onrender.com/location/alllocation";
     fetchPostLocation(url);
   }, []);
 
@@ -100,7 +101,8 @@ const InputEdit = (props) => {
   };
 
   useEffect(() => {
-    const url = "http://127.0.0.1:5001/category/allcategory";
+    const url =
+      "https://inventorybackend-hz92.onrender.com/category/allcategory";
     fetchPostCategory(url);
   }, []);
 
@@ -142,7 +144,8 @@ const InputEdit = (props) => {
   };
 
   useEffect(() => {
-    const url = "http://127.0.0.1:5001/productlist/allproductlist";
+    const url =
+      "https://inventorybackend-hz92.onrender.com/productlist/allproductlist";
     fetchPostProduct(url);
   }, []);
 
@@ -172,7 +175,7 @@ const InputEdit = (props) => {
   };
 
   useEffect(() => {
-    const url = "http://127.0.0.1:5001/unit/allunit";
+    const url = "https://inventorybackend-hz92.onrender.com/unit/allunit";
     fetchPostUnit(url);
   }, []);
 
@@ -190,7 +193,7 @@ const InputEdit = (props) => {
 
   const sendOneInputToBackend = async (oneInput) => {
     const restable = await fetch(
-      "http://127.0.0.1:5001/withdrawproduct/update",
+      "https://inventorybackend-hz92.onrender.com/withdrawproduct/update",
       {
         method: "PATCH",
         body: JSON.stringify({
@@ -223,13 +226,16 @@ const InputEdit = (props) => {
         date: cdate,
         id: id,
       };
-      const reswithdraw = await fetch("http://127.0.0.1:5001/withdraw/update", {
-        method: "PATCH",
-        body: JSON.stringify(databody),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const reswithdraw = await fetch(
+        "https://inventorybackend-hz92.onrender.com/withdraw/update",
+        {
+          method: "PATCH",
+          body: JSON.stringify(databody),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       const datawithdraw = await reswithdraw.json();
       setwithdrawidsave(datawithdraw.updatewithdrawDetailsResult.rows[0].id);
