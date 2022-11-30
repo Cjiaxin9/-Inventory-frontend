@@ -22,8 +22,8 @@
 * can only edit if the date is created in the current date
 
 - **Supervisor**
-*can view and edit all the Stockin lists that were created
-*can view, edit and create new company(supplier), location, unit, category and product name
+* can view and edit all the Stockin lists that were created
+* can view, edit and create new company(supplier), location, unit, category and product name
 
 4. # **Technologies used to build frontend:**
 
