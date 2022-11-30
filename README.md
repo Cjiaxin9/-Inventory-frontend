@@ -21,6 +21,13 @@
 * can view the withdraw list that was created
 * can only edit if the date is created in the current date
 
+- **Supervisor**
+* can create new /view and edit a company name (suppliers) 
+* can create new /view and edit a locaion name 
+* can create new /view and edit a product name 
+* can create new /view and edit a unit
+* can create new /view and edit category
+
 4. # **Technologies used to build frontend:**
 
 - React.js
@@ -80,6 +87,13 @@ b. Worker{
 ` `"username": "Estelle",
 
 ` `"password": "987654",
+
+}
+c. Supervisor{
+
+` `"username": "Daniel",
+
+` `"password": "123456",
 
 }
 
