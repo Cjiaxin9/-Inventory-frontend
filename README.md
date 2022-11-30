@@ -1,8 +1,8 @@
-﻿Project #4: An inventory for Vending Nation company (Full Stack App)
+﻿Project #4: An inventory for Vending World company (Full Stack App)
 
-1. # **Background of Vending Nation**
+1. # **Background of Vending World**
 
-- Vending Nation is a company that sell snacks and drinks by vending machine
+- Vending World is a company that sell snacks and drinks by vending machine
 
 2. # **Overview of this application**
 
@@ -22,11 +22,8 @@
 * can only edit if the date is created in the current date
 
 - **Supervisor**
-* can create new /view and edit a company name (suppliers) 
-* can create new /view and edit a locaion name 
-* can create new /view and edit a product name 
-* can create new /view and edit a unit
-* can create new /view and edit category
+* can view and edit all the Stockin lists that were created
+* can view, edit and create new company(supplier), location, unit, category and product name
 
 4. # **Technologies used to build frontend:**
 
@@ -39,13 +36,13 @@
 - Node.js
 
 6. # **Github Repositories:**
-   Client: <https://github.com/Cjiaxin9/-Inventory-frontend.git>
-   Server: <https://github.com/Cjiaxin9/Inventory-backend.git>
+  * Client: <https://github.com/Cjiaxin9/-Inventory-frontend.git>
+  * Server: <https://github.com/Cjiaxin9/Inventory-backend.git>
 
 7. # **How to install and run the project:**
    **Create a database In sql (Shell) copy and paste the following:**
 
-- create database vendingnation;
+- create database vendinworld;
 - grant all privileges on database vendingnation to db_user;
 - grant select, insert, update, delete on all tables in schema public to db_user;
 
@@ -99,6 +96,6 @@ c. Supervisor{
 
 <br> 8. # **Things that can be add on**
 
-- Stock in so that we can calculate the balance stock
+- calculate the balance stock
 - A user account setting for individual user for them to change the password
 - Authorization
